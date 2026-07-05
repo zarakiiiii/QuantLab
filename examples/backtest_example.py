@@ -23,6 +23,6 @@ backtester = Backtester(initial_cash=100000)
 
 results = backtester.run(df, signals)
 
-print(signals.tail())
+
 print(results)
 
