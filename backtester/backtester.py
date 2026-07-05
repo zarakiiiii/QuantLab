@@ -3,7 +3,7 @@ class Backtester:
     def __init__(self,initial_cash=100000):
         self.initial_cash = initial_cash
 
-    def run(self, df, signals):
+    def run(self, df, signals) -> dict:
         cash = self.initial_cash
         shares = 0.0
         holding_stock = False
@@ -20,17 +20,11 @@ class Backtester:
                     num_trades += 1
 
             elif current_signal == -1 and holding_stock:
-                cash = cash + shares*current_price
+                cash = shares*current_price
                 shares=0
                 holding_stock = False
                   
-                  
-                  
-        
-        
-        
-        
-
+        last_price = df["Close"].iloc[-1]
         if holding_stock:
             final_portfolio = cash + shares*df["Close"].iloc[-1]
 
@@ -45,4 +39,7 @@ class Backtester:
             "total_return": total_return,
             "num_trades": num_trades
         }
+    
+
+    
             
