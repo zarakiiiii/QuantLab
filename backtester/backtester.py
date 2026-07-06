@@ -1,3 +1,10 @@
+import pandas as pd
+from analytics.metrics import (
+    max_drawdown,
+    volatility,
+    sharpe_ratio,
+    cagr
+)
 class Backtester:
 
     def __init__(self,initial_cash=100000):
@@ -50,13 +57,29 @@ class Backtester:
 
         total_return = (
         final_portfolio-self.initial_cash) / self.initial_cash * 100
-            
+        
+        equity_curve = pd.Series(
+            equity_curve,
+            index=df.index,
+            name="Equity Curve"
+        )
+
+        mdd = max_drawdown(equity_curve)
+        vol = volatility(equity_curve)
+        sharpe = sharpe_ratio(equity_curve)
+        annual_cagr = cagr(self.initial_cash,final_portfolio,df)
+
         return {
             "final_portfolio": final_portfolio,
             "total_return": total_return,
             "num_trades": num_trades,
             "trade_log": trade_log,
-            "equity_curve": equity_curve
+            "equity_curve": equity_curve,
+
+            "cagr": annual_cagr,
+            "volatility": vol,
+            "sharpe_ratio": sharpe,
+            "max_drawdown": mdd
         }
     
 
