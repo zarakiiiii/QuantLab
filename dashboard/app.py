@@ -64,7 +64,7 @@ if run_button:
     )
 
     #displaying metrics now
-    col1,col2,col3 = st.columsn(3)
+    col1,col2,col3 = st.columns(3)
     with col1:
      st.metric("Total Return",
               f"{results['total_return']:.2f}%"
@@ -178,13 +178,9 @@ if run_button:
     trade_df["sell_date"] = trade_df["sell_date"].dt.date
 
     trade_df["buy_price"] = trade_df["buy_price"].round(2)
-    trade_df["sell_date"] = trade_df["sell_date"].round(2)
+    trade_df["sell_price"] = trade_df["sell_price"].round(2)
     trade_df["profit"] = trade_df["profit"].round(2)
     trade_df["shares"] = trade_df["shares"].astype(int)
 
     st.dataframe(trade_df)
-
-    st.dataframe(
-        results["trade_log"]
-    )
 
