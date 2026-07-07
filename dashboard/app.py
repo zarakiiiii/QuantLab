@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import pandas as pd
 
 st.title("QuantLab Dashboard")
 
@@ -63,33 +64,41 @@ if run_button:
     )
 
     #displaying metrics now
-    st.metric("Total Return",
-              f"{results["total_return"]:.2f}%"
+    col1,col2,col3 = st.columsn(3)
+    with col1:
+     st.metric("Total Return",
+              f"{results['total_return']:.2f}%"
               )
-    
-    st.metric("CAGR",
+    with col2:
+     st.metric("CAGR",
               f"{results['cagr']:.2f}%"
               )
-    
-    st.metric(
+    with col3:
+     st.metric(
     "Sharpe Ratio",
     f"{results['sharpe_ratio']:.2f}"
     )
+    
+    col4,col5,col6 = st.columns(3)
 
-    st.metric(
+    with col4:
+     st.metric(
     "Volatility",
     f"{results['volatility']*100:.2f}%"
     )
-
-    st.metric(
+    
+    with col5:
+     st.metric(
     "Max Drawdown",
     f"{results['max_drawdown']:.2f}%"
     )
-
-    st.metric(
+    with col6:
+     st.metric(
     "Number of Trades",
     results["num_trades"]
     )
+
+
 
     st.subheader("Portfolio Equity Curve")
     st.line_chart(results["equity_curve"])
@@ -162,6 +171,18 @@ if run_button:
     st.plotly_chart(fig)
 
     st.subheader("Trade History")
+    
+
+    trade_df = pd.DataFrame(results["trade_log"])
+    trade_df["buy_date"] = trade_df["buy_date"].dt.date
+    trade_df["sell_date"] = trade_df["sell_date"].dt.date
+
+    trade_df["buy_price"] = trade_df["buy_price"].round(2)
+    trade_df["sell_date"] = trade_df["sell_date"].round(2)
+    trade_df["profit"] = trade_df["profit"].round(2)
+    trade_df["shares"] = trade_df["shares"].astype(int)
+
+    st.dataframe(trade_df)
 
     st.dataframe(
         results["trade_log"]
