@@ -103,6 +103,7 @@ if run_button:
     )
 
     #adding buy/sell markers
+    st.subheader("Buy & Sell signals dashboard")
     fig = go.Figure()
 
     fig.add_trace(

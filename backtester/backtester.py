@@ -42,7 +42,7 @@ class Backtester:
                     "sell_date": df.index[i],
                     "sell_price": current_price,
                     "shares": sold_shares,
-                    "profit": (current_price - buy_price)*shares
+                    "profit": (current_price - buy_price)*sold_shares
                 })
 
             portfolio_value = cash + shares*current_price
