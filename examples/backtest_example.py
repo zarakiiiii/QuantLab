@@ -24,5 +24,11 @@ backtester = Backtester(initial_cash=100000)
 results = backtester.run(df, signals)
 
 
-print(results)
+print("Final Portfolio:", results["final_portfolio"])
+print("Total Return:", results["total_return"])
+print("CAGR:", results["cagr"])
+print("Sharpe Ratio:", results["sharpe_ratio"])
+print("Volatility:", results["volatility"])
+print("Max Drawdown:", results["max_drawdown"])
+print("Trades:", results["num_trades"])
 
