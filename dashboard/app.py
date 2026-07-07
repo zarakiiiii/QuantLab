@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 
 st.title("QuantLab Dashboard")
 
@@ -99,5 +100,69 @@ if run_button:
     st.subheader("Price & Moving Averages")
 
     st.line_chart(df[["Close", "EMA Fast", "EMA Slow"]]
+    )
+
+    #adding buy/sell markers
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["Close"],
+            name="Close"
+        )
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["EMA Fast"],
+            name="EMA Fast"
+        )
+    )
+
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df["EMA Slow"],
+            name="EMA Slow"   
+        )
+    )
+
+    buy_points = df[signals == 1]
+
+    fig.add_trace(
+        go.Scatter(
+            x=buy_points["Close"],
+            mode="markers",
+            name="Buy",
+            marker=dict(
+                symbol="triangle-up",
+                size=12
+            )
+        )
+    )
+
+    sell_points = df[signals == -1]
+
+    fig.add_trace(
+        go.Scatter(
+            x=sell_points.index,
+            y=sell_points["Close"],
+            mode="markers",
+            name="Sell",
+            marker=dict(
+                symbol="triangle-down",
+                size=12
+            )
+        )
+    )
+
+    st.plotly_chart(fig)
+
+    st.subheader("Trade History")
+
+    st.dataframe(
+        results["trade_log"]
     )
 
